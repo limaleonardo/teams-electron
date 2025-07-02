@@ -36,17 +36,21 @@ sudo chmod 4755 node_modules/electron/dist/chrome-sandbox
 echo "🖼️ Copiando ícone..."
 cp teams-icon.png "$ICON_PATH"
 
-echo "🧾 Criando script de inicialização..."
+# 🧾 Criando script de inicialização...
 WRAPPER_PATH="$HOME/.local/bin/teams-web"
 mkdir -p "$(dirname "$WRAPPER_PATH")"
+
+# Caminho absoluto do npm para sessões sem NVM carregado
+NPM_BIN="$(command -v npm)"
 
 cat > "$WRAPPER_PATH" <<EOF
 #!/bin/bash
 cd "$INSTALL_DIR/$SRC_DIR"
-npm start
+exec "$NPM_BIN" start
 EOF
 
 chmod +x "$WRAPPER_PATH"
+
 
 echo "🧷 Criando atalho no menu (desktop file)..."
 cat > "$DESKTOP_FILE" <<EOF
