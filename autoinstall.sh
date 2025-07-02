@@ -4,7 +4,7 @@ set -e
 
 APP_NAME="teams-electron"
 INSTALL_DIR="$HOME/.local/share/$APP_NAME"
-REPO_URL="https://github.com/SEU_USUARIO/SEU_REPO"
+REPO_URL="https://github.com/limaleonardo/teams-electron"
 REPO_ZIP="$REPO_URL/archive/refs/heads/main.zip"
 ICON_PATH="$INSTALL_DIR/teams-icon.png"
 DESKTOP_FILE="$HOME/.local/share/applications/$APP_NAME.desktop"
