@@ -4,7 +4,8 @@ set -e
 
 APP_NAME="teams-electron"
 INSTALL_DIR="$HOME/.local/share/$APP_NAME"
-REPO_ZIP="https://github.com/limaleonardo/teams-electron/archive/refs/heads/main.zip"
+REPO_URL="https://github.com/limaleonardo/teams-electron"
+REPO_ZIP="$REPO_URL/archive/refs/heads/main.zip"
 ICON_PATH="$INSTALL_DIR/teams-icon.png"
 DESKTOP_FILE="$HOME/.local/share/applications/$APP_NAME.desktop"
 
@@ -24,7 +25,7 @@ curl -L "$REPO_ZIP" -o repo.zip
 unzip -o repo.zip
 rm repo.zip
 
-# Caminho para o diretório extraído
+# Detecta o nome do diretório extraído (ex: repo-main)
 SRC_DIR=$(find . -maxdepth 1 -type d -name "*-main" | head -n1)
 
 echo "📦 Instalando dependências do Electron..."
@@ -38,23 +39,11 @@ sudo chmod 4755 node_modules/electron/dist/chrome-sandbox
 echo "🖼️ Copiando ícone..."
 cp teams-icon.png "$ICON_PATH"
 
-echo "🧾 Criando script de inicialização..."
-WRAPPER_PATH="$HOME/.local/bin/teams-web"
-mkdir -p "$(dirname "$WRAPPER_PATH")"
-
-cat > "$WRAPPER_PATH" <<EOF
-#!/bin/bash
-cd "$INSTALL_DIR/$SRC_DIR"
-npm start
-EOF
-
-chmod +x "$WRAPPER_PATH"
-
-echo "🧷 Criando atalho no menu (desktop file)..."
+echo "🧷 Criando atalho na área de trabalho..."
 cat > "$DESKTOP_FILE" <<EOF
 [Desktop Entry]
 Name=Microsoft Teams Web
-Exec=$WRAPPER_PATH
+Exec=npm start --prefix=$INSTALL_DIR/$SRC_DIR
 Icon=$ICON_PATH
 Type=Application
 Categories=Network;Chat;
@@ -62,7 +51,6 @@ StartupNotify=true
 EOF
 
 chmod +x "$DESKTOP_FILE"
-update-desktop-database ~/.local/share/applications/
 
-echo "✅ Instalação finalizada!"
-echo "🔎 Procure por 'Microsoft Teams Web' no menu e seja feliz 🎉"
+echo "✅ Instalação concluída!"
+echo "Você pode abrir o Teams Web pelo menu de aplicativos 🎉"
