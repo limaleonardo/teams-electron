@@ -24,10 +24,8 @@ curl -L "$REPO_ZIP" -o repo.zip
 unzip -o repo.zip
 rm repo.zip
 
-# Caminho para o diretório extraído
-SRC_DIR=$(find . -maxdepth 1 -type d -name "*-main" | head -n1)
-
-echo "📦 Instalando dependências do Electron..."
+# Caminho fixo para onde o repositório é extraído
+SRC_DIR="teams-electron-main"
 cd "$SRC_DIR"
 npm install
 
@@ -63,6 +61,3 @@ EOF
 
 chmod +x "$DESKTOP_FILE"
 update-desktop-database ~/.local/share/applications/
-
-echo "✅ Instalação finalizada!"
-echo "🔎 Procure por 'Microsoft Teams Web' no menu e seja feliz 🎉"
