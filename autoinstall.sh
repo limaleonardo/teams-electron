@@ -40,16 +40,20 @@ cp teams-icon.png "$ICON_PATH"
 WRAPPER_PATH="$HOME/.local/bin/teams-web"
 mkdir -p "$(dirname "$WRAPPER_PATH")"
 
-# Caminho absoluto do npm para sessões sem NVM carregado
+# Caminho absoluto do npm (instalado via nvm)
 NPM_BIN="$(command -v npm)"
+NODE_DIR="$(dirname "$NPM_BIN")"   # diretório onde está o node também
 
 cat > "$WRAPPER_PATH" <<EOF
-#!/bin/bash
+#!/usr/bin/env bash
+# Garante que node e npm do NVM estejam no PATH
+export PATH="$NODE_DIR:\$PATH"
 cd "$INSTALL_DIR/$SRC_DIR"
 exec "$NPM_BIN" start
 EOF
 
 chmod +x "$WRAPPER_PATH"
+
 
 
 echo "🧷 Criando atalho no menu (desktop file)..."
